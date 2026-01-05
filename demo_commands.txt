@@ -1,0 +1,18 @@
+DEMO 1: Successful sales query
+
+Invoke-RestMethod `
+  -Uri "http://127.0.0.1:8000/ask" `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{"store_id":"demo.myshopify.com","question":"What were my top 5 selling products last week?"}' |
+ConvertTo-Json -Depth 5
+
+
+DEMO 2: Inventory fallback 
+
+Invoke-RestMethod `
+  -Uri "http://127.0.0.1:8000/ask" `
+  -Method POST `
+  -Headers @{ "Content-Type" = "application/json" } `
+  -Body '{"store_id":"demo.myshopify.com","question":"How much inventory should I reorder for next week?"}' |
+ConvertTo-Json -Depth 5

@@ -1,0 +1,39 @@
+sequenceDiagram
+    participant User
+    participant Rails as Rails API (Gateway)
+    participant Python as Python AI Service (Agent)
+    participant LLM as LLM (OpenAI/Gemini)
+    participant Shopify as Shopify Admin API
+
+    Note over Rails: Port 3000
+    Note over Python: Port 8000
+
+    User->>Rails: POST /api/v1/questions (store_id, question)
+    
+    activate Rails
+    Rails->>Rails: Validate Input & Authenticate
+    Rails->>Rails: Lookup Secure Shop Token
+    
+    Rails->>Python: POST /ask (question, token)
+    activate Python
+    
+    Python->>Python: 1. Interpret Intent (Sales vs Inventory)
+    
+    Python->>Python: 2. Plan & Generate ShopifyQL
+    
+    Python->>LLM: (Optional) Refine Query
+    
+    Python->>Python: 3. Validate ShopifyQL (Security Check)
+    
+    Python->>Shopify: 4. Execute Query (Fetch Data)
+    activate Shopify
+    Shopify-->>Python: Return JSON Data
+    deactivate Shopify
+    
+    Python->>Python: 5. Explain Results (Business Logic)
+    
+    Python-->>Rails: JSON Response {answer, confidence}
+    deactivate Python
+    
+    Rails-->>User: Final Formatted Response
+    deactivate Rails
