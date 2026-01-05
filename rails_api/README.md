@@ -90,9 +90,6 @@ curl -X POST http://127.0.0.1:3000/api/v1/questions \
 
 ## Running the Rails API (Optional)
 
-> ⚠️ Running Rails locally is optional for submission.
-> The Python AI service can be tested independently.
-
 If you have Ruby & Rails installed:
 
 ```bash
